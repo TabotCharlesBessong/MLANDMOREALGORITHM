@@ -1,1 +1,5 @@
 /Material
+imageClassification/data
+*.jpg
+*.png
+*.jpeg
