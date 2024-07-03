@@ -18,20 +18,25 @@ heart_disease_model = pickle.load(open('./saved models/heart_disease_model.sav',
 
 parkinsons_model = pickle.load(open('./saved models/parkinsons_model.sav', 'rb'))
 
+cancer_model = pickle.load(open("./saved models/cancer_model.sav", "rb"))
 
 
 # sidebar for navigation
 with st.sidebar:
-    
-    selected = option_menu('Multiple Disease Prediction System',
-                          
-                          ['Diabetes Prediction',
-                           'Heart Disease Prediction',
-                           'Parkinsons Prediction'],
-                          icons=['activity','heart','person'],
-                          default_index=0)
-    
-    
+
+    selected = option_menu(
+        "Multiple Disease Prediction System",
+        [
+            "Diabetes Prediction",
+            "Heart Disease Prediction",
+            "Parkinsons Prediction",
+            "Breast Cancer Prediction",
+        ],
+        icons=["activity", "heart", "person", "heart"],
+        default_index=0,
+    )
+
+
 # Diabetes Prediction Page
 if (selected == 'Diabetes Prediction'):
     
@@ -81,8 +86,6 @@ if (selected == 'Diabetes Prediction'):
           diab_diagnosis = 'The person is not diabetic'
         
     st.success(diab_diagnosis)
-
-
 
 
 # Heart Disease Prediction Page
@@ -149,9 +152,7 @@ if (selected == 'Heart Disease Prediction'):
           heart_diagnosis = 'The person does not have any heart disease'
         
     st.success(heart_diagnosis)
-        
-    
-    
+
 
 # Parkinson's Prediction Page
 if (selected == "Parkinsons Prediction"):
@@ -243,4 +244,64 @@ if (selected == "Parkinsons Prediction"):
         
     st.success(parkinsons_diagnosis)
 
+if (selected == "Breast Cancer Prediction"):
+    st.title("Diabetis Prediction using ML")
 
+    # getting input from the user
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        age = st.text_input("Age")
+
+    with col2:
+        menopause = st.text_input("menopause")
+
+    with col3:
+        tumorSize = st.text_input("Tumor size")
+
+    with col1:
+        invNodes = st.text_input("Invalve Node")
+
+    with col2:
+        nodeCaps = st.text_input("Node Caps")
+
+    with col3:
+        degMalig = st.text_input("Deg Malig")
+
+    with col1:
+        Breast = st.text_input("Breast")
+
+    with col2:
+        BreastQuad = st.text_input("Breats Quad")
+
+    with col3:
+        irrediat = st.text_input("Irradiat")
+
+    # code for Prediction
+    cancer_diagnosis = ""
+
+    # creating a button for Prediction
+
+    if st.button("Breast Cancer Test Result"):
+        cancer_prediction = cancer_model.predict(
+            [
+                [
+                    age,
+                    menopause,
+                    tumorSize,
+                    invNodes,
+                    nodeCaps,
+                    degMalig,
+                    Breast,
+                    BreastQuad,
+                    irrediat
+                ]
+            ]
+        )
+
+        if cancer_prediction[0] == 0:
+            cancer_diagnosis = "The person has cancer"
+        else:
+            cancer_diagnosis = "The person does not have cancer"
+
+    st.success(cancer_diagnosis)
